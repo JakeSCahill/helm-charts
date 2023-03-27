@@ -1,0 +1,33 @@
+name: Publish Helm chart documentation
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  publish_docs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout documentation repository
+        uses: actions/checkout@v2
+        with:
+          repository: JakeSCahill/redpanda-docs-antora
+          ref: dev
+          token: ${{ secrets.PAT_TOKEN }}
+
+      - name: Generate documentation
+        uses: norwoodj/helm-docs@v1.5.0
+        with:
+          chart_path: ./charts/
+          output_directory: ./docs/reference/
+
+      - name: Commit documentation changes
+        run: |
+          git config --global user.email "bot@github.com"
+          git config --global user.name "GitHub Action Bot"
+          git add docs/reference/
+          git commit -m "Update Helm chart documentation"
+          git push origin dev
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
