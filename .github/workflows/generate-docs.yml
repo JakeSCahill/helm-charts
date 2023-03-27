@@ -20,6 +20,7 @@ jobs:
         run: |
           wget https://github.com/norwoodj/helm-docs/releases/latest/download/helm-docs-linux-amd64
           sudo install helm-docs-linux-amd64 /usr/local/bin/helm-docs
+          
       - name: Generate documentation
         run: |
           cd charts
