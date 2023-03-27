@@ -24,7 +24,7 @@ jobs:
           
       - name: Generate documentation
         run: |
-          cd charts
+          cd helm-charts
           helm-docs
 
       - name: Commit documentation changes
