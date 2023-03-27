@@ -22,7 +22,7 @@
 # >>> This chart requires Helm version 3.6.0 or greater <<<
 #
 
-# Common settings
+# Common settings TEST
 #
 # Override redpanda.name template.
 nameOverride: ""
