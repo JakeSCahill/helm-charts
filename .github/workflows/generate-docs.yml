@@ -1,4 +1,4 @@
-name: Publish Helm chart documentation
+name: Publish Helm Charts Documentation
 
 on:
   push:
@@ -6,33 +6,29 @@ on:
       - main
 
 jobs:
-  publish_docs:
+  build-and-publish-docs:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout documentation repository
+      - name: Checkout Helm Charts
         uses: actions/checkout@v2
         with:
-          repository: JakeSCahill/redpanda-docs-antora
-          ref: dev
-          token: ${{ secrets.PAT_TOKEN }}
-
+          repository: JakeSCahill/helm-charts
       - name: Install helm-docs
         run: |
           wget https://github.com/norwoodj/helm-docs/releases/download/v1.11.0/helm-docs_1.11.0_Linux_arm64.tar.gz
           tar xzf helm-docs_1.11.0_Linux_arm64.tar.gz
           sudo install helm-docs /usr/local/bin/helm-docs
-          
       - name: Generate documentation
         run: |
-          cd helm-charts
+          cd helm-charts/charts
           helm-docs
-
-      - name: Commit documentation changes
-        run: |
-          git config --global user.email "bot@github.com"
-          git config --global user.name "GitHub Action Bot"
-          git add docs/reference/
-          git commit -m "Update Helm chart documentation"
-          git push origin dev
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Checkout Documentation
+        uses: actions/checkout@v2
+        with:
+          repository: JakeSCahill/redpanda-docs-antora
+          ref: dev
+      - name: Publish documentation
+        uses: actions/upload-artifact@v2
+        with:
+          name: Helm Charts Documentation
+          path: docs/reference
