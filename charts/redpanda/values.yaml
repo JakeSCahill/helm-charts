@@ -18,7 +18,7 @@
 # For further information on Helm templating see the documentation at:
 #  https://helm.sh/docs/chart_template_guide/values_files/
 
-#test
+#
 # >>> This chart requires Helm version 3.6.0 or greater <<<
 #
 
