@@ -13,20 +13,24 @@ jobs:
         uses: actions/checkout@v2
         with:
           repository: JakeSCahill/helm-charts
+          
       - name: Install helm-docs
         run: |
           wget https://github.com/norwoodj/helm-docs/releases/download/v1.11.0/helm-docs_1.11.0_Linux_arm64.tar.gz
           tar xzf helm-docs_1.11.0_Linux_arm64.tar.gz
           sudo install helm-docs /usr/local/bin/helm-docs
+          
       - name: Generate documentation
         run: |
           cd helm-charts/charts
           helm-docs
+          
       - name: Checkout Documentation
         uses: actions/checkout@v2
         with:
           repository: JakeSCahill/redpanda-docs-antora
           ref: dev
+          
       - name: Publish documentation
         uses: actions/upload-artifact@v2
         with:
